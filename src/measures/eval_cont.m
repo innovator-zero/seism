@@ -21,13 +21,14 @@
 % ------------------------------------------------------------------------
 function measure = eval_cont( contours, ground_truth, maxDist, kill_internal,lkup )
 
-if nargin<3,
-    maxDist = 0.0075;
+% already setting
+if nargin<3
+    maxDist = 0.0075; 
 end
-if nargin<4,
+if nargin<4
     kill_internal = 0;
 end
-if nargin<5,
+if nargin<5
     lkup = [];
 end
 
@@ -41,12 +42,12 @@ if ~isequal(size(contours),size(ground_truth{1}))
     error('''contours'' and ''ground_truth'' must have the same size')
 end
 
-if kill_internal,
-    if isempty(lkup),
+if kill_internal
+    if isempty(lkup)
         error('Look Up table for classes/instances not provided');
     else
-        for ii=1 : length(unique(ground_truth{1})),
-            if lkup(ii,2)>0,
+        for ii=1 : length(unique(ground_truth{1}))
+            if lkup(ii,2)>0
                 mask = (ground_truth{1}==ii);
                 gt_bdry = seg2bmap(mask);
                 contours = kill_internal_bdries(contours, gt_bdry, mask, maxDist);

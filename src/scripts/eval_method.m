@@ -12,24 +12,25 @@
 %  "Measures and Meta-Measures for the Supervised Evaluation of Image Segmentation,"
 %  Computer Vision and Pattern Recognition (CVPR), 2013.
 % ------------------------------------------------------------------------
-function eval_method(method, parameter, measure, read_part_fun, database, gt_set, num_params, segm_or_contour, cat_ids)
+function eval_method(method, method_dir, parameter, measure, read_part_fun, database, gt_set, num_params, segm_or_contour, cat_ids)
 
 if ~exist('segm_or_contour','var')
     segm_or_contour = 0;
 end
 
 % I/O folders
-method_dir = fullfile(seism_root,'datasets',database,method);
-res_dir    = fullfile(seism_root,'results' ,database,method);
+res_dir = fullfile(seism_root,'results',method);
 
 kill_internal = 0;
-if strcmp(database,'Pascal'),
+if strcmp(database,'Pascal')
     maxDist = 0.01;
-elseif strcmp(database,'SBD'),
+elseif strcmp(database,'SBD')
     maxDist = 0.02;
     kill_internal = 1;
     method_dir = fullfile(seism_root,'datasets',database,method,num2str(cat_ids));
     res_dir    = fullfile(seism_root,'results' ,database,method,num2str(cat_ids));
+elseif strcmp(database, 'NYUD')
+    maxDist = 0.011;
 else
     maxDist = 0.0075;
 end
@@ -49,12 +50,12 @@ if exist(results_file,'file')
     % Check not empty
     s = dir(results_file);
     if s.bytes > 0
-        tmp = dlmread(results_file,',');
+        tmp = dlmread(results_file);
         if size(tmp,1)==length(im_ids)
             disp(['Already computed: ' results_file])
             return;
         end
-    end;
+    end
 end
 
 % Open results file
@@ -73,7 +74,7 @@ for ii=1:numel(im_ids)
 
     % Read ground truth (gt_seg)
     lkup = [];
-    if strcmp(database,'SBD'),
+    if strcmp(database,'SBD')
         [gt_seg,~,~,~,lkup] = db_gt(database,curr_id,'cls',cat_ids);
     else
         gt_seg = db_gt(database,curr_id);
@@ -98,7 +99,7 @@ for ii=1:numel(im_ids)
         if ~strcmp(measure,'fb')
             error('Contours can only be evaluated using the ''fb'' measure')
         end
-        value = eval_cont(partition_or_contour, gt_seg, maxDist, kill_internal,lkup);
+        value = eval_cont(partition_or_contour, gt_seg, maxDist, kill_internal, lkup);
     end
     
     % Write to file

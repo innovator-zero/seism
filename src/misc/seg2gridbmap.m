@@ -30,8 +30,8 @@ end
 
 %% To gridbmap
 gridbmap = zeros(size(seg)*2 +1);
-gridbmap(2:2:end, 3:2:end-1) = (seg(:,1:end-1)~=seg(:,2:end));
-gridbmap(3:2:end-1, 2:2:end) = (seg(1:end-1,:)~=seg(2:end,:));
+gridbmap(2:2:end, 3:2:end-1) = (seg(:,1:end-1)~=seg(:,2:end)); % 同一行左右不连续 h*(w-1)
+gridbmap(3:2:end-1, 2:2:end) = (seg(1:end-1,:)~=seg(2:end,:)); % 同一列上下不连续 (h-1)*w
 
 if nargout>1
     %% Neighbor indices

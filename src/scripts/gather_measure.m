@@ -10,9 +10,9 @@ function stats = gather_measure(method, params, measure, database, gt_set, cat_i
 
 % Directory where results are stored
 if nargin<6
-    results_dir = fullfile(seism_root, 'results', database, method);
+    results_dir = fullfile(seism_root, 'results', method);
 else
-    results_dir = fullfile(seism_root, 'results', database, method,num2str(cat_id));
+    results_dir = fullfile(seism_root, 'results', method,num2str(cat_id));
 end
   
 % Set of images considered according to gt_set ('test', 'val', 'train')

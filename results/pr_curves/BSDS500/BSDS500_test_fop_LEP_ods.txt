@@ -1,2 +1,0 @@
-Precision	Recall
-0.449020	0.389747
