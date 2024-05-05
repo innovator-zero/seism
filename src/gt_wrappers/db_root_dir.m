@@ -13,9 +13,9 @@
 % ------------------------------------------------------------------------
 function db_root_dir = db_root_dir( database )
 if strcmp(database, 'PASCALContext')
-    db_root_dir = '/data/PASCAL_MT/Context';
+    db_root_dir = '/path/to/datasets/PASCALContext/pascal-context/trainval';
 elseif strcmp(database, 'NYUD')
-    db_root_dir = '/data/NYUDv2/edge_mat';
+    db_root_dir = '/path/to/datasets/NYUDv2/edge_mat';
 else
     error(['Unknown database: ' database]);
 end
