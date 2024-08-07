@@ -14,6 +14,7 @@ if ~exist(nms_dir, 'dir')
 end
 
 files = dir(fullfile(img_dir, '*.png'));
+p = parpool('local', feature('numcores'));
 parfor i = 1:size(files, 1)
     x = double(imread(fullfile(img_dir, files(i).name))) / 255.0; 
     E = convTri(single(x),1);
@@ -24,6 +25,7 @@ parfor i = 1:size(files, 1)
     E = edgesNmsMex(E,O,4,5,1.01,4);
     imwrite(uint8(E*255), fullfile(nms_dir, files(i).name))
 end
+delete(p);
 
 toc;
 end

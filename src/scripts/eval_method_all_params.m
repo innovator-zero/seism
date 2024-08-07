@@ -34,6 +34,7 @@ end
 disp(['Total number of parameterizations: ' num2str(ii)])
 
 %% Run using the parallel computing toolbox
+p = parpool('local', feature('numcores'));
 parfor nn=1:length(experiments)
     method_name = experiments(nn).method;
     parameter   = experiments(nn).parameter;
@@ -42,6 +43,7 @@ parfor nn=1:length(experiments)
     eval_method(method_name, method_dir, parameter, measure, read_part_fun, database,  gt_set, length(params), segm_or_contour,cat_ids)
     disp(['Done:     ' method_name ' (' parameter ') for measure ' measure ' on ' gt_set])
 end
+delete(p);
 
 %% Run all experiments sequentially
 % for nn=1:length(experiments)
